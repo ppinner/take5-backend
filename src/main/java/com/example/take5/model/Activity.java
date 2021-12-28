@@ -10,9 +10,9 @@ public class Activity {
 
     private String name;
     private String description;
-    private Category category;
+    private String[] category;
 
-    public Activity(String id, String name, String description, Category category) {
+    public Activity(String id, String name, String description, String[] category) {
         super();
         this.id = id;
         this.name = name;
@@ -36,11 +36,11 @@ public class Activity {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public String[] getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String[] category) {
         this.category = category;
     }
 }

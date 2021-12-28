@@ -1,6 +1,5 @@
-package com.example.take5.application;
+package com.example.take5;
 
-import com.example.take5.config.SecurityConfig;
 import com.example.take5.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @Service
 @RestController
-@EnableMongoRepositories(basePackages = {"com.me.service.testservice.repository"}, considerNestedRepositories = true)
 @RequestMapping("/api/activities")
 public class ActivityController {
 
@@ -52,6 +51,8 @@ public class ActivityController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    //TODO - get activities for certain category
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
