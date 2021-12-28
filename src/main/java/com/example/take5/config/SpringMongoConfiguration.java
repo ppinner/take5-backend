@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 public class SpringMongoConfiguration {
 
     public @Bean MongoClient mongoClient() {
-        return MongoClients.create("mongodb+srv://dataGuy:dataGuy1@cluster0.uyjm9.mongodb.net:27017");
+        return MongoClients.create("mongodb+srv://dataGuy:dataGuy1@cluster0.uyjm9.mongodb.net");
     }
 
     public @Bean MongoTemplate mongoTemplate() {
