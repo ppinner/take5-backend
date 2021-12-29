@@ -4,7 +4,6 @@ import com.example.take5.model.Activity;
 import com.example.take5.model.Category;
 import com.example.take5.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
