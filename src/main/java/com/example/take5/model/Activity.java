@@ -20,6 +20,10 @@ public class Activity {
         this.category = category;
     }
 
+    public Activity(){
+        super();
+    }
+
     public String getName() {
         return name;
     }
@@ -42,5 +46,12 @@ public class Activity {
 
     public void setCategory(String[] category) {
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Activity[name='%s', category='%s']",
+                id, name, category.toString());
     }
 }
