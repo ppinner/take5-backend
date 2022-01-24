@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Activity {
     @Id
     private String id;
-
     private String name;
     private String description;
     private String[] category;
@@ -46,6 +45,10 @@ public class Activity {
 
     public void setCategory(String[] category) {
         this.category = category;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override

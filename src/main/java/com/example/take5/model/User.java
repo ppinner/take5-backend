@@ -10,15 +10,6 @@ import java.util.List;
 public class User {
     @Id
     private String id;
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
     private Date dob;
     private String name;
     private Personality personality;
@@ -78,5 +69,17 @@ public class User {
 
     public void setScores(Score scores) {
         this.scores = scores;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 }
