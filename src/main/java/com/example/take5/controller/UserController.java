@@ -111,7 +111,11 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}/activityLog/add")
+    @RequestMapping(
+            value = "/{id}/activityLog/add",
+            method = RequestMethod.PUT,
+            produces = "application/json"
+    )
     public ResponseEntity<User> addActivityEntry(@RequestBody ActivityLogEntry activityLogEntry, @PathVariable("id") String id) {
         Optional<User> userData = userRepository.findById(id);
 
@@ -121,6 +125,7 @@ public class UserController {
             if (activityList == null) {
                 activityList = new ArrayList<>();
             }
+            //TODO - add ID field if not provided
             activityList.add(activityLogEntry);
             _user.setActivityLog(activityList);
             return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
