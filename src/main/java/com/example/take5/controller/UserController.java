@@ -2,6 +2,7 @@ package com.example.take5.controller;
 
 import com.example.take5.model.ActivityLogEntry;
 import com.example.take5.model.Personality;
+import com.example.take5.model.Score;
 import com.example.take5.model.User;
 import com.example.take5.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,7 @@ public class UserController {
             User _user = userData.get();
             _user.setName(user.getName());
             _user.setFocus(user.getFocus());
+            _user.setDob(user.getDob());
             if (user.getPersonality() != null) {
                 _user.setPersonality(user.getPersonality());
             }
@@ -180,6 +182,31 @@ public class UserController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/score")
+    public ResponseEntity<Score> getUserScore(@PathVariable("id") String id) {
+        Optional<User> userData = userRepository.findById(id);
+
+        if (userData.isPresent()) {
+            Score _score = userData.get().getScores();
+            return new ResponseEntity<>(_score, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{id}/score")
+    public ResponseEntity<User> updateUserScore(@RequestBody Score score, @PathVariable("id") String id) {
+        Optional<User> userData = userRepository.findById(id);
+
+        if (userData.isPresent()) {
+            User _user = userData.get();
+            _user.setScores(score);
+            return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
