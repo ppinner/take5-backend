@@ -5,6 +5,7 @@ import com.example.take5.model.Personality;
 import com.example.take5.model.Score;
 import com.example.take5.model.User;
 import com.example.take5.repository.UserRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -127,7 +128,9 @@ public class UserController {
             if (activityList == null) {
                 activityList = new ArrayList<>();
             }
-            //TODO - add ID field if not provided
+            if (activityLogEntry.getId() == null) {
+                activityLogEntry.setId(new ObjectId().toString());
+            }
             activityList.add(activityLogEntry);
             _user.setActivityLog(activityList);
             return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);

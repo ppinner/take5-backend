@@ -32,6 +32,10 @@ public class ActivityLogEntry {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setActivity(Activity activity) {
         this.activity = activity;
     }
