@@ -36,21 +36,6 @@ public class UserController {
         }
     }
 
-
-    //TODO - ask usman best way to implement this - by user id and compare directly or by personality?
-    // Think best to write query myself/do logic self instead of relying on db?
-
-//    @GetMapping("/personalityMatch")
-//    public ResponseEntity<List<User>> findSimilarPersonalityUsers(@RequestBody Personality personality) {
-//        try {
-//            List<User> users = userRepository.findUsersByPersonalityContains(personality);
-//
-//            return new ResponseEntity<>(users, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> create(@RequestBody User user) {
@@ -114,49 +99,31 @@ public class UserController {
         }
     }
 
-    @RequestMapping(
-            value = "/{id}/activityLog/add",
-            method = RequestMethod.PUT,
-            produces = "application/json"
-    )
-    public ResponseEntity<User> addActivityEntry(@RequestBody ActivityLogEntry activityLogEntry, @PathVariable("id") String id) {
-        Optional<User> userData = userRepository.findById(id);
+
+    @PutMapping("/{userId}/activityLog/edit")
+    public ResponseEntity<User> editActivityEntry(@RequestBody ActivityLogEntry activityLogEntry, @PathVariable("userId") String userId) {
+        Optional<User> userData = userRepository.findById(userId);
 
         if (userData.isPresent()) {
             User _user = userData.get();
             List<ActivityLogEntry> activityList = _user.getActivityLog();
-            if (activityList == null) {
-                activityList = new ArrayList<>();
-            }
+            List<ActivityLogEntry> filteredActivityList = activityList.stream()
+                    .filter(logEntry -> logEntry.getId().equals(activityLogEntry.getId()))
+                    .collect(Collectors.toList());
+
             if (activityLogEntry.getId() == null) {
                 activityLogEntry.setId(new ObjectId().toString());
             }
-            activityList.add(activityLogEntry);
-            _user.setActivityLog(activityList);
-            return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PutMapping("/{id}/activityLog/edit")
-    public ResponseEntity<User> editActivityEntry(@RequestBody ActivityLogEntry entry, @PathVariable("id") String id) {
-        Optional<User> userData = userRepository.findById(id);
-
-        if (userData.isPresent()) {
-            User _user = userData.get();
-            List<ActivityLogEntry> activityList = _user.getActivityLog();
-            List<ActivityLogEntry> filteredActivityList = activityList.stream()
-                    .filter(logEntry -> logEntry.getId().equals(entry.getId()))
-                    .collect(Collectors.toList());
 
             if (filteredActivityList.size() == 1) {
                 int index = activityList.indexOf(filteredActivityList.get(0));
-                activityList.set(index, entry);
+                activityList.set(index, activityLogEntry);
                 _user.setActivityLog(activityList);
                 return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                activityList.add(activityLogEntry);
+                _user.setActivityLog(activityList);
+                return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
             }
 
         } else {
@@ -164,16 +131,16 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}/activityLog/delete")
-    public ResponseEntity<User> deleteActivityEntry(@RequestBody ActivityLogEntry entry, @PathVariable("id") String id) {
-        Optional<User> userData = userRepository.findById(id);
+    @DeleteMapping("/{userId}/activityLog/delete/{logId}")
+    public ResponseEntity<User> deleteActivityEntry(@PathVariable("userId") String userId, @PathVariable("logId") String logId) {
+        Optional<User> userData = userRepository.findById(userId);
 
         if (userData.isPresent()) {
             User _user = userData.get();
             List<ActivityLogEntry> activityList = _user.getActivityLog();
 
             List<ActivityLogEntry> filteredActivityList = activityList.stream()
-                    .filter(logEntry -> logEntry.getId().equals(entry.getId()))
+                    .filter(logEntry -> logEntry.getId().equals(logId))
                     .collect(Collectors.toList());
 
             if (filteredActivityList.size() == 1) {
