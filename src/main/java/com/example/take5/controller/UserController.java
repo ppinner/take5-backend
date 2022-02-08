@@ -1,9 +1,6 @@
 package com.example.take5.controller;
 
-import com.example.take5.model.ActivityLogEntry;
-import com.example.take5.model.Personality;
-import com.example.take5.model.Score;
-import com.example.take5.model.User;
+import com.example.take5.model.*;
 import com.example.take5.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,10 +24,10 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> findOne(@PathVariable("id") String id) {
-        User activityData = userRepository.findDistinctById(id);
+        User userData = userRepository.findDistinctById(id);
 
-        if (activityData != null) {
-            return new ResponseEntity<>(activityData, HttpStatus.OK);
+        if (userData != null) {
+            return new ResponseEntity<>(userData, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -157,28 +154,41 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}/score")
-    public ResponseEntity<Score> getUserScore(@PathVariable("id") String id) {
-        Optional<User> userData = userRepository.findById(id);
-
-        if (userData.isPresent()) {
-            Score _score = userData.get().getScores();
-            return new ResponseEntity<>(_score, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+//    @GetMapping("/{id}/score")
+//    public ResponseEntity<Score> getUserScore(@PathVariable("id") String id) {
+//        Optional<User> userData = userRepository.findById(id);
+//
+//        if (userData.isPresent()) {
+//            Dictionary<KK> _score = userData.get().getScores();
+//            return new ResponseEntity<>(_score, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     @PutMapping("/{id}/score")
-    public ResponseEntity<User> updateUserScore(@RequestBody Score score, @PathVariable("id") String id) {
+    public ResponseEntity<User> updateUserScore(@RequestBody ScoreLog scoreLog, @PathVariable("id") String id) {
         Optional<User> userData = userRepository.findById(id);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        if (userData.isPresent()) {
-            User _user = userData.get();
-            _user.setScores(score);
-            return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            Date dateWithoutTime = sdf.parse(sdf.format(scoreLog.getDate()));
+            if (userData.isPresent()) {
+                User _user = userData.get();
+                HashMap<Date, Score> scoreHistory;
+                if(_user.getScores() == null){
+                    scoreHistory = new HashMap<>();
+                } else {
+                    scoreHistory = _user.getScores();
+                }
+                scoreHistory.put(dateWithoutTime, scoreLog.getScore());
+                _user.setScores(scoreHistory);
+                return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch(ParseException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 

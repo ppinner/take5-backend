@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Document(collection = "users")
@@ -15,13 +16,13 @@ public class User {
     private Personality personality;
     private Category focus;
     private List<ActivityLogEntry> activityLog;
-    private Score scores;
+    private HashMap<Date, Score> scores;
 
     public User() {
         super();
     }
 
-    public User(String id, Date dob, String name, Personality personality, Category focus, List<ActivityLogEntry> activityLog, Score scores) {
+    public User(String id, Date dob, String name, Personality personality, Category focus, List<ActivityLogEntry> activityLog, HashMap<Date, Score> scores) {
         this.id = id;
         this.dob = dob;
         this.name = name;
@@ -63,11 +64,11 @@ public class User {
         this.activityLog = activityLog;
     }
 
-    public Score getScores() {
+    public HashMap<Date, Score> getScores() {
         return scores;
     }
 
-    public void setScores(Score scores) {
+    public void setScores(HashMap<Date, Score> scores) {
         this.scores = scores;
     }
 
