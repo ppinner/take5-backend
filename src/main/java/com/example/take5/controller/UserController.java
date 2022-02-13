@@ -58,6 +58,7 @@ public class UserController {
             User _user = userData.get();
             _user.setName(user.getName());
             _user.setFocus(user.getFocus());
+            _user.setFocusStart(user.getFocusStart());
             _user.setDob(user.getDob());
             if (user.getPersonality() != null) {
                 _user.setPersonality(user.getPersonality());

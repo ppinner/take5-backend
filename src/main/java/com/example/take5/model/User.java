@@ -15,6 +15,7 @@ public class User {
     private String name;
     private Personality personality;
     private Category focus;
+    private Date focusStart;
     private List<ActivityLogEntry> activityLog;
     private HashMap<Date, Score> scores;
 
@@ -22,12 +23,13 @@ public class User {
         super();
     }
 
-    public User(String id, Date dob, String name, Personality personality, Category focus, List<ActivityLogEntry> activityLog, HashMap<Date, Score> scores) {
+    public User(String id, Date dob, String name, Personality personality, Category focus, List<ActivityLogEntry> activityLog, HashMap<Date, Score> scores, Date focusStart) {
         this.id = id;
         this.dob = dob;
         this.name = name;
         this.personality = personality;
         this.focus = focus;
+        this.focusStart = focusStart;
         this.activityLog = activityLog;
         this.scores = scores;
     }
@@ -82,5 +84,13 @@ public class User {
 
     public void setDob(Date dob) {
         this.dob = dob;
+    }
+
+    public Date getFocusStart() {
+        return focusStart;
+    }
+
+    public void setFocusStart(Date focusStart) {
+        this.focusStart = focusStart;
     }
 }
