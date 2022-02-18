@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 
 @EnableMongoRepositories("com.example.take5.repository")
-@SpringBootApplication(exclude= SecurityAutoConfiguration.class) //TODO - remove this
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class Take5Application implements RepositoryRestConfigurer {
 
 	@Autowired

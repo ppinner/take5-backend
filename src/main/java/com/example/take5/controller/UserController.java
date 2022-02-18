@@ -33,6 +33,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<User>> findAll() {
+        List<User> userData = userRepository.findAll();
+
+        if (userData != null) {
+            return new ResponseEntity<>(userData, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> create(@RequestBody User user) {
