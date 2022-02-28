@@ -5,7 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 @Document(collection = "users")
 public class User {
@@ -16,21 +15,19 @@ public class User {
     private Personality personality;
     private Category focus;
     private Date focusStart;
-    private List<ActivityLogEntry> activityLog;
     private HashMap<Date, Score> scores;
 
     public User() {
         super();
     }
 
-    public User(String id, Date dob, String name, Personality personality, Category focus, List<ActivityLogEntry> activityLog, HashMap<Date, Score> scores, Date focusStart) {
+    public User(String id, Date dob, String name, Personality personality, Category focus, HashMap<Date, Score> scores, Date focusStart) {
         this.id = id;
         this.dob = dob;
         this.name = name;
         this.personality = personality;
         this.focus = focus;
         this.focusStart = focusStart;
-        this.activityLog = activityLog;
         this.scores = scores;
     }
 
@@ -56,14 +53,6 @@ public class User {
 
     public void setFocus(Category focus) {
         this.focus = focus;
-    }
-
-    public List<ActivityLogEntry> getActivityLog() {
-        return activityLog;
-    }
-
-    public void setActivityLog(List<ActivityLogEntry> activityLog) {
-        this.activityLog = activityLog;
     }
 
     public HashMap<Date, Score> getScores() {

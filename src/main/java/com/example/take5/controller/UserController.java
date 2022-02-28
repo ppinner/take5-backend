@@ -74,9 +74,6 @@ public class UserController {
             if (user.getPersonality() != null) {
                 _user.setPersonality(user.getPersonality());
             }
-            if (user.getActivityLog() != null) {
-                _user.setActivityLog(user.getActivityLog());
-            }
             return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -103,64 +100,6 @@ public class UserController {
             User _user = userData.get();
             _user.setPersonality(personality);
             return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-
-    @PutMapping("/{userId}/activityLog/edit")
-    public ResponseEntity<User> editActivityEntry(@RequestBody ActivityLogEntry activityLogEntry, @PathVariable("userId") String userId) {
-        Optional<User> userData = userRepository.findById(userId);
-
-        if (userData.isPresent()) {
-            User _user = userData.get();
-            List<ActivityLogEntry> activityList = _user.getActivityLog();
-            List<ActivityLogEntry> filteredActivityList = activityList.stream()
-                    .filter(logEntry -> logEntry.getId().equals(activityLogEntry.getId()))
-                    .collect(Collectors.toList());
-
-            if (activityLogEntry.getId() == null) {
-                activityLogEntry.setId(new ObjectId().toString());
-            }
-
-            if (filteredActivityList.size() == 1) {
-                int index = activityList.indexOf(filteredActivityList.get(0));
-                activityList.set(index, activityLogEntry);
-                _user.setActivityLog(activityList);
-                return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-            } else {
-                activityList.add(activityLogEntry);
-                _user.setActivityLog(activityList);
-                return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-            }
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @DeleteMapping("/{userId}/activityLog/delete/{logId}")
-    public ResponseEntity<User> deleteActivityEntry(@PathVariable("userId") String userId, @PathVariable("logId") String logId) {
-        Optional<User> userData = userRepository.findById(userId);
-
-        if (userData.isPresent()) {
-            User _user = userData.get();
-            List<ActivityLogEntry> activityList = _user.getActivityLog();
-
-            List<ActivityLogEntry> filteredActivityList = activityList.stream()
-                    .filter(logEntry -> logEntry.getId().equals(logId))
-                    .collect(Collectors.toList());
-
-            if (filteredActivityList.size() == 1) {
-                int index = activityList.indexOf(filteredActivityList.get(0));
-                activityList.remove(index);
-                _user.setActivityLog(activityList);
-                return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -14,10 +14,6 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query
     User findDistinctById(String id);
 
-    //TODO - Add methods to find users with similar personality to specified
-//    @Query
-//    List<User> findUsersByPersonalityLike(Personality personality);
-
     long count();
 }
 
