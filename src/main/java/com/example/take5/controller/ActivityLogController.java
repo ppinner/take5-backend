@@ -20,54 +20,6 @@ public class ActivityLogController {
     @Autowired
     private ActivityLogRepository activityLogRepository;
 
-//    @GetMapping("/{userId}")
-//    public ResponseEntity<Activity> findRecommendationForUser(@PathVariable("userId") String id) {
-//        User userData = userRepository.findDistinctById(id);
-//        List<User> users = userRepository.findAll();
-//        Activity suggested = new Activity();
-//
-//        LenskitConfiguration config = new LenskitConfiguration();
-//        config.bind(ItemScorer.class)
-//                .to(UserUserItemScorer.class);
-//
-//        config.bind(BaselineScorer.class, ItemScorer.class)
-//                .to(UserMeanItemScorer.class);
-//        config.bind(UserMeanBaseline.class, ItemScorer.class)
-//                .to(ItemMeanRatingItemScorer.class);
-//
-//        //Not sure this is right
-//        config.within(UserVectorNormalizer.class)
-//                .bind(VectorNormalizer.class)
-//                .to(MeanCenteringVectorNormalizer.class);
-//
-//        config.set(NeighborhoodSize.class).to(30);
-//
-//        config.bind(EventDAO.class).to(userRepository.new File("ratings.csv"), ","));
-//
-//        LenskitRecommender rec = LenskitRecommender.create(config);
-//        ItemRecommender irec = rec.getItemRecommender();
-//        List<ScoredId> recommendations = irec.recommend(id, 1);
-//
-//        //Step 1: Compare users to find similar users to current user (personality, dob)
-//
-//        //Step 2: Of these users, analyse activity logs for most common activities
-//        //    - filter by those which are under the user's focus goal
-//        //Step 3: Output the recommendation to the user
-//
-//        if (userData != null) {
-//            return new ResponseEntity<>(suggested, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-
-    //TODO - for recommendation for similar activities:
-    // map to just get activities from the logs
-    // filter only ones that are user focus category
-    // reduce to count number of activity occurrences
-    // sort descending
-    // take most popular
-
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ActivityLogEntry>> getActivities(@PathVariable("userId") String userId) {
         try {
