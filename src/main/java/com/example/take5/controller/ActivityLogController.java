@@ -99,8 +99,7 @@ public class ActivityLogController {
             Optional<ActivityLogEntry> activityLogData = activityLogRepository.findById(id);
 
             if (activityLogData.isPresent()) {
-                ActivityLogEntry _activityLog = activityLogData.get();
-                return new ResponseEntity<>(activityLogRepository.save(_activityLog), HttpStatus.OK);
+                return new ResponseEntity<>(activityLogRepository.save(activityLog), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
