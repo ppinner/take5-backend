@@ -19,16 +19,23 @@ public class LoginController {
 
     @PostMapping("/")
     public ResponseEntity<Login> findOne(@RequestBody UserPass userPass) {
-        Login userData = loginRepository.findDistinctById(userPass.getUsername());
+        if (userPass != null) {
+            try {
+                Login userData = loginRepository.findDistinctById(userPass.getUsername());
 
-        if (userData != null && (userData.getPassword().equals(userPass.getPassword()))) {
-            return new ResponseEntity<>(userData, HttpStatus.OK);
-        } else if (userData == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else if (!userData.getPassword().equals(userPass.getPassword())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                if (userData != null && (userData.getPassword().equals(userPass.getPassword()))) {
+                    return new ResponseEntity<>(userData, HttpStatus.OK);
+                } else if (userData == null) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                } else if (!userData.getPassword().equals(userPass.getPassword())) {
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+            } catch (Exception ex) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

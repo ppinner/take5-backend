@@ -52,19 +52,19 @@ public class ActivityController {
         }
     }
 
-    @GetMapping("/categories/{category}")
-    public ResponseEntity<List<Activity>> findByCategory(@PathVariable("category") Category category) {
-        try {
-            List<Activity> activityData = activityRepository.findActivitiesByCategory(category);
-
-            if (activityData.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(activityData, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("/categories/{category}")
+//    public ResponseEntity<List<Activity>> findByCategory(@PathVariable("category") Category category) {
+//        try {
+//            List<Activity> activityData = activityRepository.findActivitiesByCategory(category);
+//
+//            if (activityData.isEmpty()) {
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//            return new ResponseEntity<>(activityData, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 
     @PostMapping

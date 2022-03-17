@@ -20,6 +20,8 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
     @GetMapping("/{id}")
     public ResponseEntity<User> findOne(@PathVariable("id") String id) {
         User userData = userRepository.findDistinctById(id);
@@ -103,24 +105,11 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/{id}/score")
-//    public ResponseEntity<Score> getUserScore(@PathVariable("id") String id) {
-//        Optional<User> userData = userRepository.findById(id);
-//
-//        if (userData.isPresent()) {
-//            Dictionary<KK> _score = userData.get().getScores();
-//            return new ResponseEntity<>(_score, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-
     @PutMapping("/{id}/score")
     public ResponseEntity<User> updateUserScore(@RequestBody ScoreLog scoreLog, @PathVariable("id") String id) {
-        Optional<User> userData = userRepository.findById(id);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
         try {
+            Optional<User> userData = userRepository.findById(id);
+
             Date dateWithoutTime = sdf.parse(sdf.format(scoreLog.getDate()));
             if (userData.isPresent()) {
                 User _user = userData.get();
@@ -136,8 +125,10 @@ public class UserController {
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        }catch(ParseException e) {
+        } catch (ParseException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

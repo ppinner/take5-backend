@@ -54,7 +54,7 @@ public class Activity {
     @Override
     public String toString() {
         return String.format(
-                "Activity[id='%s', name='%s', category='%s']",
-                id, name, category.toString());
+                "Activity[id='%s', name='%s', description='%s']",
+                id, name, description);
     }
 }
