@@ -49,6 +49,11 @@ public class UserController {
     public ResponseEntity<User> create(@RequestBody User user) {
         try {
             User _user = userRepository.save(user);
+            Date dateWithoutTime = sdf.parse(sdf.format(new Date()));
+            HashMap<Date, Score> scores = new HashMap<>();
+            Score start = new Score(0.0, 0.0, 0.0, 0.0, 0.0);
+            scores.put(dateWithoutTime, start);
+            _user.setScores(scores);
             return new ResponseEntity<>(_user, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

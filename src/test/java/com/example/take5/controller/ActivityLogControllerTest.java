@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.mockito.Mockito.when;
 
@@ -59,7 +56,9 @@ class ActivityLogControllerTest {
 
         when(activityLogRepository.findByUserId("1234")).thenReturn(activities);
 
-        assert (activityLogController.getActivities("1234").getStatusCode()).equals(HttpStatus.NOT_FOUND);
+        ResponseEntity<List<ActivityLogEntry>> responseEntity = activityLogController.getActivities("1234");
+        assert (responseEntity.getStatusCode()).equals(HttpStatus.OK);
+        assert (responseEntity.getBody().size() == 0);
     }
 
     @Test
