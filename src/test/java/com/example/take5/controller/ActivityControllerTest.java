@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
+@ContextConfiguration(locations = "/test-context.xml")
 @SpringBootTest
 class ActivityControllerTest {
 
