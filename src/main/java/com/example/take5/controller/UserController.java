@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 @Service
@@ -49,8 +52,8 @@ public class UserController {
     public ResponseEntity<User> create(@RequestBody User user) {
         try {
             User _user = userRepository.save(user);
-            Date dateWithoutTime = sdf.parse(sdf.format(new Date()));
-            HashMap<Date, Score> scores = new HashMap<>();
+            String dateWithoutTime = LocalDate.now(ZoneOffset.UTC).toString();
+            HashMap<String, Score> scores = new HashMap<>();
             Score start = new Score(0.0, 0.0, 0.0, 0.0, 0.0);
             scores.put(dateWithoutTime, start);
             _user.setScores(scores);
@@ -113,12 +116,14 @@ public class UserController {
     @PutMapping("/{id}/score")
     public ResponseEntity<User> updateUserScore(@RequestBody ScoreLog scoreLog, @PathVariable("id") String id) {
         try {
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
             Optional<User> userData = userRepository.findById(id);
 
-            Date dateWithoutTime = sdf.parse(sdf.format(scoreLog.getDate()));
+            String dateWithoutTime = LocalDate.now(ZoneOffset.UTC).toString();
+
             if (userData.isPresent()) {
                 User _user = userData.get();
-                HashMap<Date, Score> scoreHistory;
+                HashMap<String, Score> scoreHistory;
                 if(_user.getScores() == null){
                     scoreHistory = new HashMap<>();
                 } else {
@@ -130,8 +135,6 @@ public class UserController {
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        } catch (ParseException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -15,13 +15,13 @@ public class User {
     private Personality personality;
     private Category focus;
     private Date focusStart;
-    private HashMap<Date, Score> scores;
+    private HashMap<String, Score> scores;
 
     public User() {
         super();
     }
 
-    public User(String id, Date dob, String name, Personality personality, Category focus, HashMap<Date, Score> scores, Date focusStart) {
+    public User(String id, Date dob, String name, Personality personality, Category focus, HashMap<String, Score> scores, Date focusStart) {
         this.id = id;
         this.dob = dob;
         this.name = name;
@@ -55,11 +55,11 @@ public class User {
         this.focus = focus;
     }
 
-    public HashMap<Date, Score> getScores() {
+    public HashMap<String, Score> getScores() {
         return scores;
     }
 
-    public void setScores(HashMap<Date, Score> scores) {
+    public void setScores(HashMap<String, Score> scores) {
         this.scores = scores;
     }
 

@@ -2,6 +2,7 @@ package com.example.take5.controller;
 
 import com.example.take5.model.*;
 import com.example.take5.repository.UserRepository;
+import javassist.compiler.SymbolTable;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,9 +27,9 @@ class UserControllerTest {
 
     @Test
     void findOne_validId_returns200() {
-        HashMap<Date, Score> scores = new HashMap<Date, Score>();
+        HashMap<String, Score> scores = new HashMap<String, Score>();
         Score s = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(new Date(), s);
+        scores.put(new Date().toString(), s);
         Personality p = new Personality(12, 21, 22, 9, 34);
         User user = new User("id", new Date(), "name", p, Category.mindfulness, scores, new Date());
 
@@ -47,9 +48,9 @@ class UserControllerTest {
 
     @Test
     void findAll_validId_returns200() {
-        HashMap<Date, Score> scores = new HashMap<Date, Score>();
+        HashMap<String, Score> scores = new HashMap<String, Score>();
         Score s = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(new Date(), s);
+        scores.put(new Date().toString(), s);
         Personality p = new Personality(12, 21, 22, 9, 34);
         User user = new User("id", new Date(), "name", p, Category.mindfulness, scores, new Date());
         User user2 = new User("id2", new Date(), "name2", p, Category.learning, scores, new Date());
@@ -73,9 +74,9 @@ class UserControllerTest {
 
     @Test
     void create_valid_returns201() {
-        HashMap<Date, Score> scores = new HashMap<Date, Score>();
+        HashMap<String, Score> scores = new HashMap<String, Score>();
         Score s = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(new Date(), s);
+        scores.put(new Date().toString(), s);
         Personality p = new Personality(12, 21, 22, 9, 34);
         User user = new User("id", new Date(), "name", p, Category.mindfulness, scores, new Date());
 
@@ -87,9 +88,9 @@ class UserControllerTest {
 
     @Test
     void create_error_returns500() {
-        HashMap<Date, Score> scores = new HashMap<Date, Score>();
+        HashMap<String, Score> scores = new HashMap<String, Score>();
         Score s = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(new Date(), s);
+        scores.put(new Date().toString(), s);
         Personality p = new Personality(12, 21, 22, 9, 34);
         User user = new User("id", new Date(), "name", p, Category.mindfulness, scores, new Date());
 
@@ -107,9 +108,9 @@ class UserControllerTest {
 
     @Test
     void updateUserDetails_valid_returns200() {
-        HashMap<Date, Score> scores = new HashMap<Date, Score>();
+        HashMap<String, Score> scores = new HashMap<String, Score>();
         Score s = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(new Date(), s);
+        scores.put(new Date().toString(), s);
         Personality p = new Personality(12, 21, 22, 9, 34);
         User user = new User("id", new Date(), "name", p, Category.mindfulness, scores, new Date());
 
@@ -126,9 +127,9 @@ class UserControllerTest {
 
     @Test
     void updateUserDetails_doesntExist_returns404() {
-        HashMap<Date, Score> scores = new HashMap<Date, Score>();
+        HashMap<String, Score> scores = new HashMap<String, Score>();
         Score s = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(new Date(), s);
+        scores.put(new Date().toString(), s);
         Personality p = new Personality(12, 21, 22, 9, 34);
         User user = new User("id", new Date(), "name", p, Category.mindfulness, scores, new Date());
 
@@ -140,9 +141,9 @@ class UserControllerTest {
 
     @Test
     void getPersonality_validId_returns200() {
-        HashMap<Date, Score> scores = new HashMap<Date, Score>();
+        HashMap<String, Score> scores = new HashMap<String, Score>();
         Score s = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(new Date(), s);
+        scores.put(new Date().toString(), s);
         Personality p = new Personality(12, 21, 22, 9, 34);
         User user = new User("id", new Date(), "name", p, Category.mindfulness, scores, new Date());
 
@@ -163,9 +164,9 @@ class UserControllerTest {
 
     @Test
     void updatePersonality_validId_returns200() {
-        HashMap<Date, Score> scores = new HashMap<Date, Score>();
+        HashMap<String, Score> scores = new HashMap<String, Score>();
         Score s = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(new Date(), s);
+        scores.put(new Date().toString(), s);
         Personality p = new Personality(12, 21, 22, 9, 34);
         User user = new User("id", new Date(), "name", p, Category.mindfulness, scores, new Date());
 
@@ -193,15 +194,15 @@ class UserControllerTest {
     @Test
     void updateScore_validId_returns200() {
         Date today = new Date();
-        HashMap<Date, Score> scores = new HashMap<Date, Score>();
+        HashMap<String, Score> scores = new HashMap<String, Score>();
         Score s = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(today, s);
+        scores.put(today.toString(), s);
         Personality p = new Personality(12, 21, 22, 9, 34);
         User user = new User("id", new Date(), "name", p, Category.mindfulness, scores, new Date());
 
-        HashMap<Date, Score> scores2 = new HashMap<Date, Score>();
+        HashMap<String, Score> scores2 = new HashMap<String, Score>();
         Score s2 = new Score(0.1, 0.2, 0.3, 0.2, 0.4);
-        scores.put(today, s2);
+        scores.put(today.toString(), s2);
         User user2 = new User("id", new Date(), "name", p, Category.mindfulness, scores2, new Date());
 
         ScoreLog sl = new ScoreLog(s2, today);
